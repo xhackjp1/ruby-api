@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="main-block" onclick="addCardItem()"></div>
+  <script>
+    // 親要素を取得
+    const mainBlock = document.getElementById("main-block");
+    mainBlock.innerHTML = "XHACK";
+
+    console.log(mainBlock);
+    // DOMを動的に生成している
+    function addCardItem(data) {
+      for (let index = 0; index < data.length; index++) {
+        let element = data[index];
+        console.log(element);
+        let divnode = document.createElement("div");
+        let imgnode = document.createElement("img");
+        let txtnode = document.createElement("p");
+        divnode.appendChild(imgnode);
+        divnode.appendChild(txtnode);
+
+        txtnode.innerText = element.email;
+        imgnode.src = element.avatar;
+        mainBlock.appendChild(divnode);
+      }
+    }
+
+    function reqListener() {
+      let res = JSON.parse(this.responseText)
+      addCardItem(res.data);
+    }
+
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", reqListener);
+    oReq.open("GET", "https://reqres.in/api/users?page=2");
+    oReq.send();
+  </script>
+</body>
+
+</html>
